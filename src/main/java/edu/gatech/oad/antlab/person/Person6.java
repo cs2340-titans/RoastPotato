@@ -2,16 +2,15 @@ package edu.gatech.oad.antlab.person;
 /**
  *  A simple class for person 6
  *  returns their name and a
- *  reversed string 
- *  
- *  @author  Bob
- *  @author  Dezhi
+ *  reversed string
+ *
+ *  @author  Wenqi Xian
  *  @version 1.1
  */
 public class Person6 {
-   /** Holds the persons real name */  
+   /** Holds the persons real name */
 	private String name;
-	
+
 	/**
 	 * The constructor, takes in the persons
 	 * name
@@ -20,19 +19,19 @@ public class Person6 {
 	public Person6(String pname){
 	  name = pname;
 	}
-	
+
 	/**
 	 * Return a string rep of this object
 	 * that varies with an input string
 	 *
 	 * @param input the varying string
-	 * @return the string representing the 
+	 * @return the string representing the
 	 *         object
 	 */
 	public String toString(String input) {
 	  return name + calc(input);
 	}
-	
+
 	/**
 	 * This method should take the string
 	 * input and return its reverse.
@@ -44,6 +43,10 @@ public class Person6 {
 	 */
 	private String calc(String input) {
 	  //Person 6 put your implementation here
-	  return null;
+		String result;
+		for (int i = 0; i < input.length(); i++) {
+			  result += input.charAt(input.length() - i - 1);
+		}
+	  return result;
 	}
 }
