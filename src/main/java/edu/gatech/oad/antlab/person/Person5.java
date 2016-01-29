@@ -30,7 +30,7 @@ public class Person5 {
 	 * @return the modified string
 	 */
 	private String calc(String input) {
-	    return  input.substring(2) + input.substring(0,1);
+	    return  input.substring(2) + input.substring(0,2);
 	}
 	
 	/**
@@ -44,5 +44,8 @@ public class Person5 {
 	public String toString(String input) {
 	  return name + calc(input);
 	}
-
+    //    public static void main(String[] args){
+    //	Person5 m = new Person5("Monna");
+    //	System.out.println(m.toString("abcdefghijklmn"));	
+    //}
 }
