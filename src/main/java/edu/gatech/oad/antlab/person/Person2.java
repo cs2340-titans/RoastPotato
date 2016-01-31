@@ -31,17 +31,17 @@ public class Person2 {
 	 */
 	private String calc(String input) {
 	  //Person 2 put your implementation here
-		String shuffledString = "";
+        String shuffledString = "";
 
-		while (input.length() != 0)
-		{
-			int index = (int) Math.floor(Math.random() * input.length());
-			char c = input.charAt(index);
-			input = input.substring(0,index)+input.substring(index+1);
-			shuffledString += c;
-		}
+        while (input.length() != 0)
+        {
+            int index = (int) Math.floor(Math.random() * input.length());
+            char c = input.charAt(index);
+            input = input.substring(0,index)+input.substring(index+1);
+            shuffledString += c;
+        }
 
-		return shuffledString;
+        return shuffledString;
 	}
 	/**
 	 * Return a string rep of this object
@@ -54,4 +54,5 @@ public class Person2 {
 	public String toString(String input) {
 	  return name + calc(input);
 	}
+    
 }
