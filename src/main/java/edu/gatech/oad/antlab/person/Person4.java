@@ -40,7 +40,7 @@ public class Person4 {
         } else if (charArray[i] == 'Z') {
           charArray[i] = 'A';
         } else {
-          charArray[i] = (char)(((int)a[i] + 1));
+          charArray[i] = (char)(((int)charArray[i] + 1));
         }
       }
       return (new String(charArray));
