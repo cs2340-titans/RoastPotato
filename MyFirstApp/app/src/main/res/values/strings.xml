@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">M3 Project</string>
     <string name="action_settings">Settings</string>
+    <string name="action_logout">Logout</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Username</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -20,4 +21,10 @@
     <string name="register_label">Register</string>
     <string name="title_activity_simple_login">Sign in</string>
     <string name="title_activity_register">Register</string>
+    <string name="FirebaseURL"><![CDATA[https://roast-potato.firebaseio.com/]]></string>
+    <string name="signup_text">Sign up with email</string>
+    <string name="submit_text">Submit</string>
+    <string name="facebook_login">Login with facebook</string>
+    <string name="facebook_app_id">1972356956322020</string>
+    <string name="google_login">Login with google+</string>
 </resources>
