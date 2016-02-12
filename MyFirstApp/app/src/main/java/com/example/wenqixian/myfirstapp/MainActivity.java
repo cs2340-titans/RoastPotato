@@ -1,5 +1,6 @@
 package com.example.wenqixian.myfirstapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,15 +12,42 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import com.facebook.login.LoginManager;
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
+
 public class MainActivity extends AppCompatActivity {
+
+    private Activity mCurrentActivity = null;
+    Firebase masterRef;
+
+    private void gotoLogin() {
+        Intent i = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(i);
+    }
+
+
+    private void logout() {
+        LoginManager.getInstance().logOut();
+        FirebaseSingleton.getInstance().ref().unauth();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // start with login page
-        Intent i = new Intent(MainActivity.this, WelcomeActivity.class);
-        startActivity(i);
+
+        masterRef = FirebaseSingleton.getInstance().ref();
+        masterRef.addAuthStateListener(new Firebase.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(AuthData authData) {
+                if (authData != null) {
+                    // user is logged in
+                } else {
+                    gotoLogin();
+                }
+            }
+        });
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -29,8 +57,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, WelcomeActivity.class);
-                startActivity(i);
+                masterRef.unauth();
             }
         });
 
@@ -60,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_logout) {
+            logout();
         }
 
         return super.onOptionsItemSelected(item);
