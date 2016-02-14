@@ -47,76 +47,14 @@ public class ProfileActivity extends AppCompatActivity {
         // get a reference to roast-potato.firebaseio.com
         Firebase myFirebaseRef = FirebaseSingleton.getInstance().ref();
         // Direct to current user by refering to its unique id
-        Firebase uniqueRef = myFirebaseRef.child("profile").child(myFirebaseRef.getAuth().getUid());
+        final Firebase uniqueRef = myFirebaseRef.child("profile").child(myFirebaseRef.getAuth().getUid());
         // Attach an listener to read the data at this reference
 
-        uniqueRef.child("fullname").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Object name = dataSnapshot.getValue();
-                TextView nameText = (TextView) findViewById(R.id.profile_name);
-                nameText.setText(name.toString());
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("The read failed: " + firebaseError.getMessage());
-            }
-        });
-
-        uniqueRef.child("gtid").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Object id = dataSnapshot.getValue();
-                TextView gtIdText = (TextView) findViewById(R.id.profile_gtid);
-                gtIdText.setText(id.toString());
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("The read failed: " + firebaseError.getMessage());
-            }
-        });
-
-        uniqueRef.child("email").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Object email = dataSnapshot.getValue();
-                TextView emailText = (TextView) findViewById(R.id.profile_email);
-                emailText.setText(email.toString());
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("The read failed: " + firebaseError.getMessage());
-            }
-        });
-
-        uniqueRef.child("mobile").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Object mobile = dataSnapshot.getValue();
-                TextView mobileText = (TextView) findViewById(R.id.profile_mobile);
-                mobileText.setText(mobile.toString());
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("The read failed: " + firebaseError.getMessage());
-            }
-        });
-
-
-        /*
-        // Alternatively, you can get a whole user, but parse it as a User
-        // but for some reason, this way doesn't work.
-
-        // Attach an listener to read the data at our reference
         uniqueRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                    User user = userSnapshot.getValue(User.class);
+                //for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                    User user = snapshot.getValue(User.class);
                     TextView nameText = (TextView) findViewById(R.id.profile_name);
                     nameText.setText(user.getFullname());
                     TextView gtIdText = (TextView) findViewById(R.id.profile_gtid);
@@ -125,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
                     emailText.setText(user.getEmail());
                     TextView mobileText = (TextView) findViewById(R.id.profile_mobile);
                     mobileText.setText(user.getMobile());
-                }
+                //}
             }
 
             @Override
@@ -133,7 +71,6 @@ public class ProfileActivity extends AppCompatActivity {
                 System.out.println("The read failed: " + firebaseError.getMessage());
             }
         });
-        */
 
         // --** Edit profile **--
         Button save = (Button) findViewById(R.id.save_button);
@@ -157,7 +94,7 @@ public class ProfileActivity extends AppCompatActivity {
                         .toString();
                 // overwrite the data at the specified user id.
                 uniqueRef.setValue(new User(name, gtid, email, mobile));
-                Snackbar.make(v,"Save successfully!",Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(v, "Save successfully!", Snackbar.LENGTH_SHORT).show();
             }
         });
     }
