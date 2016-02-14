@@ -55,14 +55,16 @@ public class ProfileActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot snapshot) {
                 //for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
-                    TextView nameText = (TextView) findViewById(R.id.profile_name);
-                    nameText.setText(user.getFullname());
-                    TextView gtIdText = (TextView) findViewById(R.id.profile_gtid);
-                    gtIdText.setText(user.getGtid());
-                    TextView emailText = (TextView) findViewById(R.id.profile_email);
-                    emailText.setText(user.getEmail());
-                    TextView mobileText = (TextView) findViewById(R.id.profile_mobile);
-                    mobileText.setText(user.getMobile());
+                    if (user != null) {
+                        TextView nameText = (TextView) findViewById(R.id.profile_name);
+                        nameText.setText(user.getFullname());
+                        TextView gtIdText = (TextView) findViewById(R.id.profile_gtid);
+                        gtIdText.setText(user.getGtid());
+                        TextView emailText = (TextView) findViewById(R.id.profile_email);
+                        emailText.setText(user.getEmail());
+                        TextView mobileText = (TextView) findViewById(R.id.profile_mobile);
+                        mobileText.setText(user.getMobile());
+                    }
                 //}
             }
 
