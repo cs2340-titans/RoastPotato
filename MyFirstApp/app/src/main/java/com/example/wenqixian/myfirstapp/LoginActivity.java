@@ -84,7 +84,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mPasswordView.setError(getString(R.string.error_incorrect_password));
         mPasswordView.requestFocus();
         setResult(1);
+<<<<<<< HEAD
         showProgress(false);
+=======
+>>>>>>> origin/master
     }
 
     @Override
@@ -93,7 +96,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
+<<<<<<< HEAD
         mFireRef = FirebaseSingleton.getInstance().ref();
+=======
+        mFireRef = new Firebase(getString(R.string.FirebaseURL));
+>>>>>>> origin/master
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();

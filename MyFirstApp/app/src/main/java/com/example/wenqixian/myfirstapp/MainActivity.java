@@ -32,11 +32,14 @@ public class MainActivity extends AppCompatActivity {
         FirebaseSingleton.getInstance().ref().unauth();
     }
 
+<<<<<<< HEAD
     private void gotoProfile() {
         Intent p = new Intent(MainActivity.this, ProfileActivity.class);
         startActivity(p);
     }
 
+=======
+>>>>>>> origin/master
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

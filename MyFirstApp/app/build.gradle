@@ -32,5 +32,8 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.firebase:firebase-client-android:2.5.0+'
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
+<<<<<<< HEAD
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+=======
+>>>>>>> origin/master
 }
