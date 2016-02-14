@@ -67,57 +67,38 @@
 
             <Button
                 style="?android:textAppearanceSmall"
-                android:layout_width="337dp"
+                android:id="@+id/email_sign_in_button"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Sign up     |       Forgot password?"
+                android:text="@string/submit_text"
                 android:textStyle="bold" />
 
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Save Password"
-                android:id="@+id/checkBox"
-                android:checked="false" />
-
             <Button android:layout_width="190dp"
-                android:id="@+id/email_sign_in_button"
+                android:id="@+id/email_register_button"
                 android:layout_height="38dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
-                android:text="submit"
+                android:text="@string/signup_text"
                 android:textColor="#fff"
-                android:textSize="13dp"
+                android:textSize="13sp"
                 android:background="#13b586"/>
 
 
-
-            <Button android:layout_width="190dp"
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/facebook_login_button"
+                android:layout_width="190dp"
                 android:layout_height="38dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
-                android:text="Login with facebook"
+                android:text="@string/facebook_login"
                 android:textColor="#fff"
-                android:textSize="13dp"
-                android:background="#2683c2"/>
+                android:textSize="13sp"
+                android:background="#2683c2" />
 
-            <Button android:layout_width="190dp"
-                android:layout_height="38dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"
-                android:text="Login with google+"
-                android:textColor="#fff"
-                android:textSize="13dp"
-                android:background="#eb543b"/>
 
         </LinearLayout>
     </ScrollView>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button" />
 </LinearLayout>
 
 
