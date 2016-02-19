@@ -91,9 +91,4 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void gotoSidebar() {
-        Intent i = new Intent(ProfileActivity.this, SideBarActivity.class);
-        startActivity(i);
-    }
 }
