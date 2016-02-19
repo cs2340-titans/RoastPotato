@@ -72,8 +72,8 @@ public class RecentItemAdapter extends BaseAdapter{
         rowView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent p = new Intent(v.getContext(), RecentIndividualItem.class);
-                Log.d("Jumping", v.getContext().toString())
+                Intent p = new Intent(v.getContext(), MainActivity.class);
+                Log.d("Jumping", v.getContext().toString());
                 v.getContext().startActivity(p);
             }
         });

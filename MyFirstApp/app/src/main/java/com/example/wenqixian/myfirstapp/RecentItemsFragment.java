@@ -2,7 +2,9 @@ package com.example.wenqixian.myfirstapp;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.database.DataSetObserver;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -42,34 +44,40 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecentItemsActivity extends AppCompatActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link RecentItemsFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link RecentItemsFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class RecentItemsFragment extends Fragment {
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    private OnFragmentInteractionListener mListener;
+
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     private static List<RecentItemDetails> recentItemDetailList = new ArrayList<>(50);
 
-    private static String currentType = "Movie";
-
     private static JsonObjectRequest jsObjRequest;
+
+    private ViewPager mViewPager;
 
     private static final String recentDVDsUrl
             = "http://api.rottentomatoes.com/api/public/v1.0/lists/dvds/new_releases.json?apikey=yedukp76ffytfuy24zsqk7f5";
 
     private static final String recentMoviesUrl
             = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json?apikey=yedukp76ffytfuy24zsqk7f5";
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
 
     class newListners<T> implements Response.Listener<T> {
 
@@ -107,7 +115,7 @@ public class RecentItemsActivity extends AppCompatActivity {
         private RequestQueue requestQueue;
 
         protected Long doInBackground(String... inputs) {
-            requestQueue = Volley.newRequestQueue(getApplicationContext());
+            requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
             jsObjRequest = createRecentItemRequest(inputs[0], Integer.parseInt(inputs[1]), mSectionsPagerAdapter);
             requestQueue.add(jsObjRequest);
             return (long) 0;
@@ -138,28 +146,60 @@ public class RecentItemsActivity extends AppCompatActivity {
         return jsObjRequest;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        final RecentItemsActivity currentRecentItemActivity = this;
 
+    public RecentItemsFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment RecentItemsFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static RecentItemsFragment newInstance(String param1, String param2) {
+        RecentItemsFragment fragment = new RecentItemsFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recent_items);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view =  inflater.inflate(R.layout.fragment_recent_items, container, false);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) view.findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
 
         tabLayout.setupWithViewPager(mViewPager);
         mViewPager.clearOnPageChangeListeners();
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+//        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
 
         new getRecentData().execute(recentMoviesUrl, "0");
@@ -175,40 +215,57 @@ public class RecentItemsActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 String requiredUrl = "N/A";
-                if (position == 0) {requiredUrl = recentMoviesUrl;} else {requiredUrl = recentDVDsUrl;}
+                if (position == 0) {
+                    requiredUrl = recentMoviesUrl;
+                } else {
+                    requiredUrl = recentDVDsUrl;
+                }
                 new getRecentData().execute(requiredUrl, Integer.toString(position));
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        return view;
+    }
 
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
         }
+    }
 
-        return super.onOptionsItemSelected(item);
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     /**
-     * A placeholder fragment containing a simple view.
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
      */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
+
     public static class RecentViewFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
@@ -216,7 +273,7 @@ public class RecentItemsActivity extends AppCompatActivity {
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-//        private static final String[] randomStringArray = new String[] {"abc", "Euler"};
+        //        private static final String[] randomStringArray = new String[] {"abc", "Euler"};
         private RecentItemAdapter tempAdapter = null;
 
         public RecentViewFragment() {
@@ -237,9 +294,9 @@ public class RecentItemsActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_recent_items, container, false);
+            View rootView = inflater.inflate(R.layout.recent_items_list_layout, container, false);
 
-            ListView recentListView = (ListView) rootView.findViewById(R.id.recent_items_option_layout);
+            ListView recentListView = (ListView) rootView.findViewById(R.id.recent_items_list_layout);
             tempAdapter = new RecentItemAdapter(getActivity(), recentItemDetailList);
             recentListView.setAdapter(tempAdapter);
             return rootView;
@@ -263,7 +320,7 @@ public class RecentItemsActivity extends AppCompatActivity {
     }
 
     /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * A {@link FragmentStatePagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {

@@ -1,8 +1,12 @@
 package com.example.wenqixian.myfirstapp;
 
 import android.app.Activity;
+import android.net.Uri;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +21,7 @@ import com.facebook.login.LoginManager;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecentItemsFragment.OnFragmentInteractionListener {
 
     private Activity mCurrentActivity = null;
     Firebase masterRef;
@@ -66,23 +70,12 @@ public class MainActivity extends AppCompatActivity {
                 masterRef.unauth();
             }
         });
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        Button submit_button = (Button) findViewById(R.id.submit_button);
-        submit_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Submit successfully! Thank you ", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        Button editProfile = (Button) findViewById(R.id.edit_button);
-        editProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gotoProfile();
-            }
-        });
+        RecentItemsFragment fragment = new RecentItemsFragment();
+        fragmentTransaction.add(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
 
     }
 
@@ -107,4 +100,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void onFragmentInteraction(Uri uri) {}
 }
