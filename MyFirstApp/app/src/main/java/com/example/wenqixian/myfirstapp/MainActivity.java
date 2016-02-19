@@ -34,6 +34,8 @@ import android.support.v7.widget.SearchView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.firebase.client.AuthData;
@@ -87,6 +89,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+
 
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -201,7 +204,7 @@ public class MainActivity extends AppCompatActivity
         SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                changeFragment(new MovieListFragment(), false);
+                changeFragment(SearchFragment.newInstance(query), false);
                 return true;
             }
 
@@ -215,7 +218,6 @@ public class MainActivity extends AppCompatActivity
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 // Do something when action item collapses
                 if (currentFragment != null) {
-                    showProgress(false);
                     changeFragment(currentFragment, true);
                 }
                 return true;  // Return true to collapse action view
@@ -223,8 +225,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-                // Do something when expanded
-                showProgress(true);
+                // Do something when expanded]
                 return true;  // Return true to expand action view
             }
         };
@@ -241,42 +242,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(Movie item) {
 
-    }
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mFragmentView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mFragmentView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mFragmentView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mFragmentView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
     }
 
 }
