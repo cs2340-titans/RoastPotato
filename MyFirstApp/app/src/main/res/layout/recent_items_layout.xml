@@ -6,6 +6,7 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/recent_items_listview"
-        android:layout_weight="1" />
+        android:id="@+id/recent_items_listview_b"
+        android:layout_weight="1"
+        android:headerDividersEnabled="false" />
 </LinearLayout>

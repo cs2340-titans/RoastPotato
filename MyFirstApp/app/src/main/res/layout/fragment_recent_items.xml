@@ -13,4 +13,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/recent_items_option_layout"
+        android:layout_weight="1"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

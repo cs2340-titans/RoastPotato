@@ -2,6 +2,7 @@ package com.example.wenqixian.myfirstapp;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.database.DataSetObserver;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -94,8 +95,9 @@ public class RecentItemsActivity extends AppCompatActivity {
                     tempRecentItem.critics_score = Integer.parseInt(ratingItem.getString("critics_score"));
                     recentItemDetailList.add(tempRecentItem);
                 }
-                adapter.getRecentViewItem(0).updateRecentViewAdapter();
+                adapter.getRecentViewItem(0).updateRecentViewAdapter(recentItemDetailList);
                 Log.d("Just testing!", Integer.toString(recentItemDetailList.size()));
+                Log.d("Just testing!", adapter.getRecentViewItem(0).toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -224,9 +226,9 @@ public class RecentItemsActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.recent_items_layout, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_recent_items, container, false);
 
-            ListView recentListView = (ListView) rootView.findViewById(R.id.recent_items_listview);
+            ListView recentListView = (ListView) rootView.findViewById(R.id.recent_items_option_layout);
             tempAdapter = new RecentItemAdapter(getActivity(), recentItemDetailList);
             recentListView.setAdapter(tempAdapter);
             return rootView;
@@ -237,10 +239,15 @@ public class RecentItemsActivity extends AppCompatActivity {
 
         }
 
-        public void updateRecentViewAdapter(){
+        public void updateRecentViewAdapter(List<RecentItemDetails> inList){
             if(tempAdapter != null){
-                tempAdapter.notifyDataSetChanged();
+                tempAdapter.dataComing(inList);
             }
+        }
+
+        @Override
+        public String toString() {
+            return tempAdapter.toString();
         }
     }
 

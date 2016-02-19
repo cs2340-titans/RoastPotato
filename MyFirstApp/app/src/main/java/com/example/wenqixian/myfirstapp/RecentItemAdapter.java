@@ -2,6 +2,7 @@ package com.example.wenqixian.myfirstapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 /**
@@ -19,6 +22,7 @@ import java.util.List;
 public class RecentItemAdapter extends BaseAdapter{
     List<RecentItemDetails> dataList;
     Context context;
+    int savedPosition = 0;
 
     private static LayoutInflater inflater=null;
 
@@ -54,22 +58,24 @@ public class RecentItemAdapter extends BaseAdapter{
     }
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        Log.d("hey", Integer.toString(dataList.size()));
         // TODO Auto-generated method stub
+        savedPosition = position;
         Holder ridView=new Holder();
         View rowView;
-        rowView = inflater.inflate(R.layout.recent_item_option_layout, null);
+//        rowView = LayoutInflater.from(getContext()).inflate(R.layout.item_user, parent, false);
+        rowView = inflater.inflate(R.layout.recent_item_option_layout, parent, false);
         ridView.title=(TextView) rowView.findViewById(R.id.recent_item_title);
         ridView.rating=(TextView) rowView.findViewById(R.id.recent_item_rating);
         ridView.title.setText(dataList.get(position).title);
+        Log.d("hey", dataList.get(position).title);
         ridView.rating.setText(Integer.toString(dataList.get(position).critics_score));
-        rowView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Toast.makeText(context, "You Clicked "+ dataList.get(position).title, Toast.LENGTH_LONG).show();
-            }
-        });
         return rowView;
+    }
+
+    public void dataComing(List<RecentItemDetails> inList) {
+        dataList = inList;
+        getView(savedPosition, null, null);
     }
 
 }
