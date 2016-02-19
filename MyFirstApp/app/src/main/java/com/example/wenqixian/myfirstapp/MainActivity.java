@@ -1,47 +1,31 @@
 package com.example.wenqixian.myfirstapp;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.LayoutTransition;
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.net.Uri;
-import android.os.Build;
-import android.support.v4.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.support.v7.widget.SearchView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.view.View;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
-
-import java.io.Console;
 
 public class MainActivity extends AppCompatActivity
     implements HomeFragment.OnFragmentInteractionListener,
@@ -49,6 +33,7 @@ public class MainActivity extends AppCompatActivity
 
     private Activity mCurrentActivity = null;
     Firebase masterRef;
+    private View mainLayout;
 
     private void gotoLogin() {
         Intent i = new Intent(MainActivity.this, LoginActivity.class);
@@ -233,6 +218,7 @@ public class MainActivity extends AppCompatActivity
         MenuItemCompat.setOnActionExpandListener(searchItem, expandListener);
         return super.onCreateOptionsMenu(menu);
     }
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {

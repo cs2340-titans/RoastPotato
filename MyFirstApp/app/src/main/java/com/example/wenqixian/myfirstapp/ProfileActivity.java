@@ -5,7 +5,7 @@ package com.example.wenqixian.myfirstapp;
  */
 
 import android.app.Activity;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -92,5 +92,8 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-
+    private void gotoSidebar() {
+        Intent i = new Intent(ProfileActivity.this, SideBarActivity.class);
+        startActivity(i);
+    }
 }
