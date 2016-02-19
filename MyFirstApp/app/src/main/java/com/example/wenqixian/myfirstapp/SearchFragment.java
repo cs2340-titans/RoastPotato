@@ -99,7 +99,7 @@ public class SearchFragment
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
                     searchEndpoint + searchQuery,
-                    null,
+                    "",
                     new SearchResultsListener(),
                     new Response.ErrorListener() {
                         @Override

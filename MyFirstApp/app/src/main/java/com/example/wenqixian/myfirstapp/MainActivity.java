@@ -29,8 +29,8 @@ import com.firebase.client.Firebase;
 
 public class MainActivity extends AppCompatActivity
     implements HomeFragment.OnFragmentInteractionListener,
-        MovieListFragment.OnListFragmentInteractionListener {
-
+        MovieListFragment.OnListFragmentInteractionListener,
+        RecentItemsFragment.OnFragmentInteractionListener{
     private Activity mCurrentActivity = null;
     Firebase masterRef;
     private View mainLayout;
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity
                 fragment = new MovieListFragment();
                 break;
             case R.id.nav_second_fragment:
-                fragment = new HomeFragment();
+                fragment = new RecentItemsFragment();
                 break;
             case R.id.nav_third_fragment:
                 fragment = new HomeFragment();
@@ -229,5 +229,6 @@ public class MainActivity extends AppCompatActivity
     public void onListFragmentInteraction(Movie item) {
 
     }
+
 
 }

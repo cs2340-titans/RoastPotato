@@ -29,8 +29,9 @@
     <string name="facebook_login">Login with facebook</string>
     <string name="facebook_app_id">1972356956322020</string>
     <string name="google_login">Login with google+</string>
-    <string name="title_activity_profile">User Profile</string>
-    <string name="title_activity_view_profile">View Profile</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_view_profile">ViewProfile</string>
+    <string name="title_activity_recent_items">RecentItemsActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
