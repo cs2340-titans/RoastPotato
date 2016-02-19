@@ -3,6 +3,7 @@ package com.example.wenqixian.myfirstapp;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.database.DataSetObserver;
+import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -37,6 +38,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,8 +54,6 @@ public class RecentItemsActivity extends AppCompatActivity {
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    private static RequestQueue requestQueue;
-
     private static List<RecentItemDetails> recentItemDetailList = new ArrayList<>(50);
 
     private static String currentType = "Movie";
@@ -66,7 +66,6 @@ public class RecentItemsActivity extends AppCompatActivity {
     private static final String recentMoviesUrl
             = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json?apikey=yedukp76ffytfuy24zsqk7f5";
 
-
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -75,9 +74,11 @@ public class RecentItemsActivity extends AppCompatActivity {
     class newListners<T> implements Response.Listener<T> {
 
         private SectionsPagerAdapter adapter;
+        int position;
 
-        public newListners(SectionsPagerAdapter adapter) {
+        public newListners(SectionsPagerAdapter adapter, int position) {
             this.adapter = adapter;
+            this.position = position;
         }
 
         @Override
@@ -95,15 +96,32 @@ public class RecentItemsActivity extends AppCompatActivity {
                     tempRecentItem.critics_score = Integer.parseInt(ratingItem.getString("critics_score"));
                     recentItemDetailList.add(tempRecentItem);
                 }
-                adapter.getRecentViewItem(0).updateRecentViewAdapter(recentItemDetailList);
+                adapter.getRecentViewItem(position).updateRecentViewAdapter(recentItemDetailList);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private JsonObjectRequest createRecentItemRequest(String url, SectionsPagerAdapter adapter) {
-        Response.Listener<JSONObject> listen = new newListners<JSONObject>(adapter);
+    private class getRecentData extends AsyncTask<String, Integer, Long> {
+        private RequestQueue requestQueue;
+
+        protected Long doInBackground(String... inputs) {
+            requestQueue = Volley.newRequestQueue(getApplicationContext());
+            jsObjRequest = createRecentItemRequest(inputs[0], Integer.parseInt(inputs[1]), mSectionsPagerAdapter);
+            requestQueue.add(jsObjRequest);
+            return (long) 0;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+        }
+
+        protected void onPostExecute(Long result) {
+        }
+    }
+
+    private JsonObjectRequest createRecentItemRequest(String url, int position, SectionsPagerAdapter adapter) {
+        Response.Listener<JSONObject> listen = new newListners<JSONObject>(adapter, position);
         jsObjRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -139,14 +157,12 @@ public class RecentItemsActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
         mViewPager.clearOnPageChangeListeners();
 
-        requestQueue = Volley.newRequestQueue(this);
-        jsObjRequest = createRecentItemRequest(recentMoviesUrl, mSectionsPagerAdapter);
-        requestQueue.add(jsObjRequest);
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        new getRecentData().execute(recentMoviesUrl, "0");
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrollStateChanged(int state) {
@@ -158,11 +174,9 @@ public class RecentItemsActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                requestQueue = Volley.newRequestQueue(currentRecentItemActivity);
                 String requiredUrl = "N/A";
                 if (position == 0) {requiredUrl = recentMoviesUrl;} else {requiredUrl = recentDVDsUrl;}
-                jsObjRequest = createRecentItemRequest(requiredUrl, mSectionsPagerAdapter);
-                requestQueue.add(jsObjRequest);
+                new getRecentData().execute(requiredUrl, Integer.toString(position));
             }
         });
 
@@ -176,7 +190,6 @@ public class RecentItemsActivity extends AppCompatActivity {
         });
 
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

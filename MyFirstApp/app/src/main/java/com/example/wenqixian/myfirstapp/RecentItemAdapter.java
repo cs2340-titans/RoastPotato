@@ -2,6 +2,7 @@ package com.example.wenqixian.myfirstapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,6 @@ import java.util.List;
 public class RecentItemAdapter extends BaseAdapter{
     List<RecentItemDetails> dataList;
     Context context;
-    int savedPosition = 0;
 
     private static LayoutInflater inflater=null;
 
@@ -60,7 +60,6 @@ public class RecentItemAdapter extends BaseAdapter{
     public View getView(final int position, View convertView, ViewGroup parent) {
         Log.d("hey", Integer.toString(dataList.size()));
         // TODO Auto-generated method stub
-        savedPosition = position;
         Holder ridView=new Holder();
         View rowView;
 //        rowView = LayoutInflater.from(getContext()).inflate(R.layout.item_user, parent, false);
@@ -68,14 +67,23 @@ public class RecentItemAdapter extends BaseAdapter{
         ridView.title=(TextView) rowView.findViewById(R.id.recent_item_title);
         ridView.rating=(TextView) rowView.findViewById(R.id.recent_item_rating);
         ridView.title.setText(dataList.get(position).title);
-        Log.d("hey", dataList.get(position).title);
         ridView.rating.setText(Integer.toString(dataList.get(position).critics_score));
+
+        rowView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent p = new Intent(v.getContext(), RecentIndividualItem.class);
+                Log.d("Jumping", v.getContext().toString())
+                v.getContext().startActivity(p);
+            }
+        });
+        Log.d("hey", dataList.get(position).title);
         return rowView;
     }
 
     public void dataComing(List<RecentItemDetails> inList) {
         dataList = inList;
-        getView(savedPosition, null, null);
+        this.notifyDataSetChanged();
     }
 
 }
