@@ -31,7 +31,7 @@
     <string name="google_login">Login with google+</string>
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="title_activity_view_profile">ViewProfile</string>
-    <string name="title_activity_side_bar">SideBarActivity</string>
+    <string name="title_activity_side_bar">Main Screen</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

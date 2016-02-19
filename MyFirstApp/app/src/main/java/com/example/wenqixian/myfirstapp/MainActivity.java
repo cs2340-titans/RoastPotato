@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout dlDrawer;
     private Toolbar toolbar;
     private ActionBarDrawerToggle drawerToggle;
+    private View mainLayout;
 
     private void gotoLogin() {
         Intent i = new Intent(MainActivity.this, LoginActivity.class);
@@ -108,17 +109,12 @@ public class MainActivity extends AppCompatActivity {
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
         // Setup drawer view
         setupDrawerContent(nvDrawer);
-        //hideUI();
-    }
 
-    private void hideUI() {
-        View fablayout = findViewById(R.id.fab);
-        View framelayout = findViewById(R.id.main_ui);
-        framelayout.setVisibility(View.INVISIBLE);
-        fablayout.setVisibility(View.INVISIBLE);
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
+//        mainLayout = findViewById(R.id.fab);
+//        mainLayout.setVisibility(View.INVISIBLE);
         return new ActionBarDrawerToggle(this, dlDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
     }
 
@@ -131,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
-        hideUI();
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
