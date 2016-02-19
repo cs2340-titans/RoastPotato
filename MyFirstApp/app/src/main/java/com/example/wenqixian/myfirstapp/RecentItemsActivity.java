@@ -96,8 +96,6 @@ public class RecentItemsActivity extends AppCompatActivity {
                     recentItemDetailList.add(tempRecentItem);
                 }
                 adapter.getRecentViewItem(0).updateRecentViewAdapter(recentItemDetailList);
-                Log.d("Just testing!", Integer.toString(recentItemDetailList.size()));
-                Log.d("Just testing!", adapter.getRecentViewItem(0).toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
