@@ -1,4 +1,4 @@
-package com.example.wenqixian.myfirstapp;
+package com.example.wenqixian.myfirstapp.fragments;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -10,12 +10,15 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.wenqixian.myfirstapp.adapters.MoviesAdapter;
+import com.example.wenqixian.myfirstapp.MyFirstApp;
+import com.example.wenqixian.myfirstapp.R;
 import com.example.wenqixian.myfirstapp.dummy.DummyMovie;
+import com.example.wenqixian.myfirstapp.models.Movie;
 
 /**
  * A fragment representing a list of Items.
@@ -155,5 +158,17 @@ public class MovieListFragment extends Fragment {
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mRecyclerView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
+    }
+
+    public View updateViewWithAdapter(View view, MoviesAdapter adapter) {
+        mAdapter = adapter;
+        RecyclerView recyclerView;
+        if (mRecyclerView != null) {
+            recyclerView = (RecyclerView)mRecyclerView;
+        } else {
+            recyclerView = (RecyclerView)view.findViewById(R.id.list);
+        }
+        recyclerView.setAdapter(mAdapter);
+        return view;
     }
 }

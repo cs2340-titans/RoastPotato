@@ -1,7 +1,6 @@
-package com.example.wenqixian.myfirstapp;
+package com.example.wenqixian.myfirstapp.singletons;
 
-import android.content.Context;
-
+import com.example.wenqixian.myfirstapp.MyFirstApp;
 import com.firebase.client.Firebase;
 import com.example.wenqixian.myfirstapp.R;
 

@@ -1,13 +1,11 @@
-package com.example.wenqixian.myfirstapp;
+package com.example.wenqixian.myfirstapp.activities;
 
 /**
  * Created by wenqixian on 2/13/16.
  */
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.wenqixian.myfirstapp.R;
+import com.example.wenqixian.myfirstapp.models.User;
+import com.example.wenqixian.myfirstapp.singletons.FirebaseSingleton;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -45,17 +46,17 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 //for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                    User user = snapshot.getValue(User.class);
-                    if (user != null) {
-                        TextView nameText = (TextView) findViewById(R.id.profile_name);
-                        nameText.setText(user.getFullname());
-                        TextView gtIdText = (TextView) findViewById(R.id.profile_gtid);
-                        gtIdText.setText(user.getGtid());
-                        TextView emailText = (TextView) findViewById(R.id.profile_email);
-                        emailText.setText(user.getEmail());
-                        TextView mobileText = (TextView) findViewById(R.id.profile_mobile);
-                        mobileText.setText(user.getMobile());
-                    }
+                User user = snapshot.getValue(User.class);
+                if (user != null) {
+                    TextView nameText = (TextView) findViewById(R.id.profile_name);
+                    nameText.setText(user.getFullname());
+                    TextView gtIdText = (TextView) findViewById(R.id.profile_gtid);
+                    gtIdText.setText(user.getGtid());
+                    TextView emailText = (TextView) findViewById(R.id.profile_email);
+                    emailText.setText(user.getEmail());
+                    TextView mobileText = (TextView) findViewById(R.id.profile_mobile);
+                    mobileText.setText(user.getMobile());
+                }
                 //}
             }
 

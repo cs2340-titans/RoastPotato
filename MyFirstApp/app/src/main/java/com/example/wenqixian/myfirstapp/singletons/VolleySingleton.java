@@ -1,7 +1,8 @@
-package com.example.wenqixian.myfirstapp;
+package com.example.wenqixian.myfirstapp.singletons;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.example.wenqixian.myfirstapp.MyFirstApp;
 
 /**
  * Created by andy on 2/19/16.

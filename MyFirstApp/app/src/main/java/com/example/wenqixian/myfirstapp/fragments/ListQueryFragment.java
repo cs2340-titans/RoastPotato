@@ -1,9 +1,7 @@
-package com.example.wenqixian.myfirstapp;
+package com.example.wenqixian.myfirstapp.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,7 +14,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.wenqixian.myfirstapp.adapters.MoviesAdapter;
+import com.example.wenqixian.myfirstapp.R;
 import com.example.wenqixian.myfirstapp.dummy.DummyMovie;
+import com.example.wenqixian.myfirstapp.models.Movie;
+import com.example.wenqixian.myfirstapp.singletons.VolleySingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,15 +30,14 @@ import java.util.List;
 /**
  * Created by andy on 2/19/16.
  */
-public class SearchFragment
-    extends MovieListFragment {
-    private static final String ARG_SEARCH_QUERY = "search-query";
-    private String searchQuery;
-    private final String searchEndpoint = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?page_limit=25&page=1&apikey=yedukp76ffytfuy24zsqk7f5&q=";
-    public SearchFragment() {
+public class ListQueryFragment
+        extends MovieListFragment {
+    public static final String ARG_LIST_QUERY = "list-query";
+    private String listQuery;
+    public ListQueryFragment() {
     }
 
-    class SearchResultsListener implements Response.Listener<JSONObject> {
+    class ListResultsListener implements Response.Listener<JSONObject> {
 
         @Override
         public void onResponse(JSONObject response) {
@@ -56,10 +57,10 @@ public class SearchFragment
         }
     }
 
-    public static SearchFragment newInstance(String query) {
-        SearchFragment fragment = new SearchFragment();
+    public static ListQueryFragment newInstance(String query) {
+        ListQueryFragment fragment = new ListQueryFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_SEARCH_QUERY, query);
+        args.putString(ARG_LIST_QUERY, query);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,7 +70,7 @@ public class SearchFragment
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            searchQuery = Uri.encode(getArguments().getString(ARG_SEARCH_QUERY));
+            listQuery = getArguments().getString(ARG_LIST_QUERY);
         }
     }
 
@@ -91,21 +92,21 @@ public class SearchFragment
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mProgressView = view.findViewById(R.id.load_progress);
         mRecyclerView = view.findViewById(R.id.list);
-        if (searchQuery == null) {
+        if (listQuery == null) {
             mAdapter = new MoviesAdapter(DummyMovie.ITEMS, mListener);
         }
         else {
             RequestQueue queue = VolleySingleton.getInstance().queue();
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
-                    searchEndpoint + searchQuery,
+                    listQuery,
                     "",
-                    new SearchResultsListener(),
+                    new ListResultsListener(),
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             if (error != null) {
-                                Log.e("RecentItemsActivity", error.getMessage());
+                                Log.e("ListQueryFragment", error.getMessage());
                             }
                         }
                     });
@@ -114,18 +115,4 @@ public class SearchFragment
         }
         updateViewWithAdapter(view, mAdapter);
     }
-
-
-    public View updateViewWithAdapter(View view, MoviesAdapter adapter) {
-        mAdapter = adapter;
-        RecyclerView recyclerView;
-        if (mRecyclerView != null) {
-            recyclerView = (RecyclerView)mRecyclerView;
-        } else {
-            recyclerView = (RecyclerView)view.findViewById(R.id.list);
-        }
-        recyclerView.setAdapter(mAdapter);
-        return view;
-    }
-
 }

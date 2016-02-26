@@ -40,4 +40,13 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="api_endpoint"><![CDATA[http://api.rottentomatoes.com/api/public/v1.0/]]></string>
+    <string name="rotten_tomato_key"><![CDATA[apikey=yedukp76ffytfuy24zsqk7f5]]></string>
+    <string name="search_partial"><![CDATA[movies.json?page_limit=25&page=1&q=]]></string>
+    <string name="recent_dvd_partial">lists/dvds/new_releases.json</string>
+    <string name="recent_movie_partial">lists/movies/in_theaters.json</string>
+
+    <string name="drawer_new_items">New Releases</string>
+    <string name="title_activity_movie_detail">MovieDetailActivity</string>
 </resources>
+

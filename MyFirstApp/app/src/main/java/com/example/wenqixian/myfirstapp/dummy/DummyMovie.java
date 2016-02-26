@@ -1,6 +1,6 @@
 package com.example.wenqixian.myfirstapp.dummy;
 
-import com.example.wenqixian.myfirstapp.Movie;
+import com.example.wenqixian.myfirstapp.models.Movie;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.example.wenqixian.myfirstapp;
+package com.example.wenqixian.myfirstapp.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -14,7 +14,6 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +29,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.wenqixian.myfirstapp.R;
+import com.example.wenqixian.myfirstapp.singletons.FirebaseSingleton;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;

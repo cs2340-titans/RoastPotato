@@ -1,4 +1,4 @@
-package com.example.wenqixian.myfirstapp;
+package com.example.wenqixian.myfirstapp.models;
 
 
 /**
