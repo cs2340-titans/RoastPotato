@@ -69,7 +69,13 @@
         <activity
             android:name=".activities.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
-            android:theme="@style/AppTheme.ActionBar"/>
+            android:theme="@style/AppTheme.ActionBar" />
+        <activity
+            android:name=".activities.RatingActivity"
+            android:label="@string/title_activity_rating"
+            android:parentActivityName=".activities.MovieDetailActivity" >
+
+        </activity>
     </application>
 
 </manifest>
