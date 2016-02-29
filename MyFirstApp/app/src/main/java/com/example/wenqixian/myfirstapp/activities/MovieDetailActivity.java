@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.example.wenqixian.myfirstapp.R;
 import com.example.wenqixian.myfirstapp.models.Movie;
 
@@ -19,7 +18,6 @@ public class MovieDetailActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-
         FloatingActionButton button = (FloatingActionButton) findViewById(R.id.fab);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,5 +42,6 @@ public class MovieDetailActivity extends Activity {
         TextView view = (TextView) findViewById(R.id.movie_title);
         view.setText(movieName);
     }
+
 
 }

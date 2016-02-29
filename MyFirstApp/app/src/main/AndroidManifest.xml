@@ -73,6 +73,12 @@
         <activity
             android:name=".activities.DummyCommentActivity"
             android:label="@string/title_activity_dummy_comment"></activity>
+        <activity
+            android:name=".activities.RatingActivity"
+            android:label="@string/title_activity_rating"
+            android:parentActivityName=".activities.MovieDetailActivity" >
+
+        </activity>
     </application>
 
 </manifest>
