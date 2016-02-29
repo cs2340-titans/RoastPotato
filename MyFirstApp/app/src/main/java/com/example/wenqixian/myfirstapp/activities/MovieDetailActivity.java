@@ -18,11 +18,11 @@ public class MovieDetailActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-        FloatingActionButton button = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton button = (FloatingActionButton) findViewById(R.id.rating_fab);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MovieDetailActivity.this, DummyCommentActivity.class);
+                Intent intent = new Intent(MovieDetailActivity.this, RatingActivity.class);
                 if (mMovie != null) {
                     intent.putExtra("movie-id", mMovie.getId());
                     intent.putExtra("movie-name", mMovie.getName());
@@ -36,11 +36,14 @@ public class MovieDetailActivity extends Activity {
     protected void onStart() {
         super.onStart();
         Bundle bundle = getIntent().getExtras();
-        String movieId = bundle.getString("movie-id");
-        String movieName = bundle.getString("movie-name");
-        mMovie = new Movie(movieId, movieName);
-        TextView view = (TextView) findViewById(R.id.movie_title);
-        view.setText(movieName);
+        if (getIntent().hasExtra("movie-id") && getIntent().hasExtra("movie-name")) {
+            String movieId = bundle.getString("movie-id");
+            String movieName = bundle.getString("movie-name");
+            mMovie = new Movie(movieId, movieName);
+            TextView view = (TextView) findViewById(R.id.movie_title);
+            view.setText(movieName);
+        }
+
     }
 
 
