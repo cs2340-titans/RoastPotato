@@ -48,5 +48,6 @@
 
     <string name="drawer_new_items">New Releases</string>
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
+    <string name="title_activity_dummy_comment">DummyCommentActivity</string>
 </resources>
 

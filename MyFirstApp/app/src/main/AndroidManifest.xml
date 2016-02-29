@@ -69,7 +69,10 @@
         <activity
             android:name=".activities.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
-            android:theme="@style/AppTheme.ActionBar"/>
+            android:theme="@style/AppTheme.ActionBar" />
+        <activity
+            android:name=".activities.DummyCommentActivity"
+            android:label="@string/title_activity_dummy_comment"></activity>
     </application>
 
 </manifest>
