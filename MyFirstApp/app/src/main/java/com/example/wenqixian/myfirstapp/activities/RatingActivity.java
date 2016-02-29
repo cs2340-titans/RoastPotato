@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 
 
 import com.example.wenqixian.myfirstapp.R;
+import com.example.wenqixian.myfirstapp.models.Movie;
 import com.example.wenqixian.myfirstapp.models.MovieRating;
 import com.example.wenqixian.myfirstapp.singletons.FirebaseSingleton;
 import com.firebase.client.DataSnapshot;
@@ -35,20 +37,26 @@ public class RatingActivity extends AppCompatActivity {
         final String movieID = String.valueOf(b.getInt("movieID"));
         */
     // JUST FOR TESTING
+    private Movie mMovie;
     String movieID = "1234";
 
     // get a reference to roast-potato.firebaseio.com
     final Firebase myFirebaseRef = FirebaseSingleton.getInstance().ref();
     // Direct to current movie by refering to its unique id
-    final Firebase uniqueRef = myFirebaseRef.child("MovieRating").child(movieID);
+    private Firebase uniqueRef = myFirebaseRef.child("comments");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Bundle b = getIntent().getExtras();
+        String movieId = b.getString("movie-id");
+        String movieName = b.getString("movie-name");
+        mMovie = new Movie(movieId, movieName);
         // -- ** View and Edit Rating ** --
-
+        uniqueRef = uniqueRef.child(uniqueRef.getAuth().getUid() + '_' + movieId);
         // Attach an listener to read the data at this reference
         uniqueRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -92,6 +100,9 @@ public class RatingActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
             case R.id.action_send:
                 EditText commentText = ((EditText) findViewById(R.id.comments_editText));
                 String comment = commentText.getText().toString();
@@ -100,7 +111,7 @@ public class RatingActivity extends AppCompatActivity {
                 String userID = myFirebaseRef.getAuth().getUid();
 
                 // overwrite the data at the specified movie id.
-                uniqueRef.setValue(new MovieRating(userID, movieID, score, comment));
+                uniqueRef.setValue(new MovieRating(userID, mMovie.getId(), score, comment));
                 AlertDialog alertDialog = new AlertDialog.Builder(RatingActivity.this).create();
                 alertDialog.setTitle("Thank you");
                 alertDialog.setMessage("Your rating has been successfully posted!");
@@ -108,6 +119,7 @@ public class RatingActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
+                                finish();
                             }
                         });
                 alertDialog.show();

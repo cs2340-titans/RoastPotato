@@ -46,7 +46,7 @@ public class ListQueryFragment
                 JSONArray arrItems = response.getJSONArray("movies");
                 for (int i = 0; i < arrItems.length(); i++) {
                     JSONObject itemJSON = (JSONObject) arrItems.get(i);
-                    Movie newMovie = new Movie(String.valueOf(i), itemJSON.getString("title"));
+                    Movie newMovie = new Movie(itemJSON.getString("id"), itemJSON.getString("title"));
                     movies.add(newMovie);
                 }
                 updateViewWithAdapter(getView(), new MoviesAdapter(movies, mListener));

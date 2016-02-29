@@ -1,13 +1,17 @@
 package com.example.wenqixian.myfirstapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.wenqixian.myfirstapp.MyFirstApp;
 import com.example.wenqixian.myfirstapp.R;
+import com.example.wenqixian.myfirstapp.activities.MovieDetailActivity;
 import com.example.wenqixian.myfirstapp.fragments.MovieListFragment;
 import com.example.wenqixian.myfirstapp.models.Movie;
 
@@ -18,7 +22,9 @@ import java.util.List;
  */
 public class MoviesAdapter extends
         RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    private Context mContext;
+    public static class ViewHolder extends RecyclerView.ViewHolder
+    implements View.OnClickListener {
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
@@ -29,7 +35,20 @@ public class MoviesAdapter extends
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.content);
+            mView.setOnClickListener(this);
+            mIdView.setOnClickListener(this);
+            mContentView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            Log.d("lol", "lol");
+            Intent intent = new Intent(view.getContext(), MovieDetailActivity.class);
+            intent.putExtra("movie-id", mItem.getId());
+            intent.putExtra("movie-name", mItem.getName());
+            view.getContext().startActivity(intent);
+        }
+
 
         @Override
         public String toString() {
@@ -38,6 +57,8 @@ public class MoviesAdapter extends
     }
     private final List<Movie> mMovies;
     private final MovieListFragment.OnListFragmentInteractionListener mListener;
+
+
 
     public MoviesAdapter(List<Movie> movies, MovieListFragment.OnListFragmentInteractionListener listener) {
         mMovies = movies;

@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/action_send"
-        android:icon="@drawable/ic_send_white_24dp"
+        android:icon="@drawable/ic_send_white_18dp"
         android:title="@string/title_rating"
         app:showAsAction="always"/>
 
