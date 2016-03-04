@@ -142,5 +142,6 @@
     <string name="title_rating">Rate a movie</string>
     <string name="post">POST</string>
     <string name="Major">Major</string>
+    <string name="title_activity_recommendation">RecommendationActivity</string>
 </resources>
 

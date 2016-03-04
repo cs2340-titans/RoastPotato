@@ -5,6 +5,8 @@ package com.example.wenqixian.myfirstapp.activities;
  */
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -41,7 +43,6 @@ public class ProfileActivity extends AppCompatActivity {
         // Direct to current user by refering to its unique id
         final Firebase uniqueRef = myFirebaseRef.child("profile").child(myFirebaseRef.getAuth().getUid());
         // Attach an listener to read the data at this reference
-
         uniqueRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {

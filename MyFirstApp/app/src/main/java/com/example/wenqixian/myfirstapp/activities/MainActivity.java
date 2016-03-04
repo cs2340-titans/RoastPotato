@@ -187,7 +187,7 @@ public class MainActivity extends FirebaseLoginBaseActivity
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerItem != null) {
                             if (drawerItem.getIdentifier() == 100001) {
-                                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                                Intent intent = new Intent(MainActivity.this, RecommendationActivity.class);
                                 startActivity(intent);
                             }
                             if (drawerItem.getIdentifier() == PROFILE_SETTING) {

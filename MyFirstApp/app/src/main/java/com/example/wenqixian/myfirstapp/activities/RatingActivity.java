@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.design.widget.Snackbar;
@@ -23,6 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.wenqixian.myfirstapp.R;
 import com.example.wenqixian.myfirstapp.models.Movie;
 import com.example.wenqixian.myfirstapp.models.MovieRating;
+import com.example.wenqixian.myfirstapp.models.User;
 import com.example.wenqixian.myfirstapp.singletons.FirebaseSingleton;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -31,12 +33,6 @@ import com.firebase.client.ValueEventListener;
 
 public class RatingActivity extends AppCompatActivity {
 
-    // TODO: Grab the movieID from MovieList
-        /*
-        Bundle b = getIntent().getExtras();
-        final String movieID = String.valueOf(b.getInt("movieID"));
-        */
-    // JUST FOR TESTING
     private Movie mMovie;
     String movieID = "1234";
 
@@ -105,13 +101,25 @@ public class RatingActivity extends AppCompatActivity {
                 return true;
             case R.id.action_send:
                 EditText commentText = ((EditText) findViewById(R.id.comments_editText));
-                String comment = commentText.getText().toString();
+                final String comment = commentText.getText().toString();
                 RatingBar ratingbar = ((RatingBar) findViewById(R.id.ratingBar));
-                float score = ratingbar.getRating();
-                String userID = myFirebaseRef.getAuth().getUid();
-
-                // overwrite the data at the specified movie id.
-                uniqueRef.setValue(new MovieRating(userID, mMovie.getId(), score, comment));
+                final float score = ratingbar.getRating();
+                final float ranking = 6 - score;
+                Firebase userRef = myFirebaseRef.child("profile").child(myFirebaseRef.getAuth().getUid());
+                userRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        User user = snapshot.getValue(User.class);
+                        if (user != null) {
+                            // overwrite the data at the specified id.
+                            uniqueRef.setValue(new MovieRating(user.getMajor(), mMovie.getName(), score, ranking, comment));
+                        }
+                    }
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+                        System.out.println("The read failed: " + firebaseError.getMessage());
+                    }
+                });
                 AlertDialog alertDialog = new AlertDialog.Builder(RatingActivity.this).create();
                 alertDialog.setTitle("Thank you");
                 alertDialog.setMessage("Your rating has been successfully posted!");
