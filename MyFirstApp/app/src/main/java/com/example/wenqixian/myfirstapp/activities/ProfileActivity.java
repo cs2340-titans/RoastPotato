@@ -54,8 +54,8 @@ public class ProfileActivity extends AppCompatActivity {
                     gtIdText.setText(user.getGtid());
                     TextView emailText = (TextView) findViewById(R.id.profile_email);
                     emailText.setText(user.getEmail());
-                    TextView mobileText = (TextView) findViewById(R.id.profile_mobile);
-                    mobileText.setText(user.getMobile());
+                    TextView majorText = (TextView) findViewById(R.id.profile_major);
+                    majorText.setText(user.getMajor());
                 }
                 //}
             }
@@ -83,11 +83,11 @@ public class ProfileActivity extends AppCompatActivity {
                 String email = ((EditText) mCurrentActivity.findViewById(R.id.profile_email))
                         .getText()
                         .toString();
-                String mobile = ((EditText) mCurrentActivity.findViewById(R.id.profile_mobile))
+                String major = ((EditText) mCurrentActivity.findViewById(R.id.profile_major))
                         .getText()
                         .toString();
                 // overwrite the data at the specified user id.
-                uniqueRef.setValue(new User(name, gtid, email, mobile));
+                uniqueRef.setValue(new User(name, gtid, email, major));
                 Snackbar.make(v, "Save successfully!", Snackbar.LENGTH_SHORT).show();
             }
         });

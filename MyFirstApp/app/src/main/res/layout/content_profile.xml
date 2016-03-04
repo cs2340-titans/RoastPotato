@@ -54,13 +54,13 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="phone"
+        android:inputType="textAutoCorrect"
         android:ems="10"
-        android:id="@+id/profile_mobile"
+        android:id="@+id/profile_major"
         android:layout_below="@+id/profile_email"
         android:layout_alignStart="@+id/profile_email"
         android:layout_alignEnd="@+id/profile_email"
-        android:hint="Mobile" />
+        android:hint="@string/Major" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
