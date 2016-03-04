@@ -178,15 +178,22 @@ public class MainActivity extends FirebaseLoginBaseActivity
                         new ProfileSettingDrawerItem().withName("Add Account")
                                 .withIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_add))
                                 .withIdentifier(PROFILE_SETTING),
-                        new ProfileSettingDrawerItem().withName("Manage Account").withIcon(GoogleMaterial.Icon.gmd_settings)
-                                .withIdentifier(100001)
-
+                        new ProfileSettingDrawerItem().withName("Manage Account")
+                                .withIcon(GoogleMaterial.Icon.gmd_settings)
+                                .withIdentifier(100001),
+                        new ProfileSettingDrawerItem().withName("Recommendation")
+                                .withIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_movie))
+                                .withIdentifier(100002)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerItem != null) {
                             if (drawerItem.getIdentifier() == 100001) {
+                                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                                startActivity(intent);
+                            }
+                            if (drawerItem.getIdentifier() == 100002) {
                                 Intent intent = new Intent(MainActivity.this, RecommendationActivity.class);
                                 startActivity(intent);
                             }
