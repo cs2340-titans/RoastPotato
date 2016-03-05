@@ -9,16 +9,16 @@ public class User {
     String fullname;
     String gtid;
     String email;
-    String mobile;
+    String major;
 
     public User() {
 
     }
-    public User(String fullname, String gtid, String email, String mobile) {
+    public User(String fullname, String gtid, String email, String major) {
         this.fullname = fullname;
         this.gtid = gtid;
         this.email= email;
-        this.mobile = mobile;
+        this.major = major;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class User {
                 "fullname='" + fullname + '\'' +
                 ", gtid='" + gtid + '\'' +
                 ", email='" + email + '\'' +
-                ", mobile='" + mobile + '\'' +
+                ", mobile='" + major + '\'' +
                 '}';
     }
 
@@ -55,11 +55,11 @@ public class User {
         this.email = email;
     }
 
-    public String getMobile() {
-        return mobile;
+    public String getMajor() {
+        return major;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setMajor(String major) {
+        this.major = major;
     }
 }

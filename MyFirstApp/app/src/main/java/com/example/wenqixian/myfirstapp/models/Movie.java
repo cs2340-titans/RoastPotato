@@ -27,4 +27,8 @@ public class Movie {
 
     private String id;
     private String name;
+
+    public static Movie getMovieById() {
+        return null;
+    }
 }

@@ -6,11 +6,14 @@
     android:layout_height="match_parent"
     tools:context="com.example.wenqixian.myfirstapp.activities.MovieDetailActivity">
 
-        <LinearLayout android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/main_linear"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/main_sub"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
@@ -23,33 +26,85 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/header"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Panda Express 3"
-                    android:textColor="@color/md_white_1000"
-                    android:id="@+id/movie_title"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true" />
             </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/viewB"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.4"
-            android:background="@android:color/holo_orange_light"
-            android:orientation="horizontal"/>
+            android:background="@android:color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Panda Express 3"
+                android:textColor="@color/md_black_1000"
+                android:id="@+id/movie_title"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="26dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar"
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/movie_title"
+                android:id="@+id/rating_area"
+                android:visibility="gone"
+                android:layout_centerHorizontal="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="My Rating"
+                    android:id="@+id/my_rating"
+                    android:layout_marginTop="23dp"
+                    android:layout_gravity="center_horizontal|top"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignStart="@+id/ratingBar2" />
+
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ratingBar2"
+                    android:layout_gravity="center"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="100dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Rating Content"
+                    android:id="@+id/rating_content"
+                    android:layout_below="@+id/my_rating"
+                    android:layout_alignStart="@+id/my_rating"
+                    android:layout_marginTop="26dp" />
+            </RelativeLayout>
+
+        </RelativeLayout>
         </LinearLayout>
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/rating_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:clickable="true"
-        android:src="@drawable/ic_one"
+        android:src="@drawable/ic_note_add_white_18dp"
         app:layout_anchor="@id/header_image_view"
         app:layout_anchorGravity="bottom|right|end"
         />
