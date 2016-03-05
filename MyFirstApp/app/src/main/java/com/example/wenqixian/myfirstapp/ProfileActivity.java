@@ -31,15 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gotoSidebar();
-            }
-        });
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // -- ** View profile ** --
 
@@ -98,10 +90,5 @@ public class ProfileActivity extends AppCompatActivity {
                 Snackbar.make(v, "Save successfully!", Snackbar.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void gotoSidebar() {
-        Intent i = new Intent(ProfileActivity.this, SideBarActivity.class);
-        startActivity(i);
     }
 }

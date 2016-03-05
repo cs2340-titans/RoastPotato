@@ -1,38 +1,38 @@
 package com.example.wenqixian.myfirstapp;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity
+    implements HomeFragment.OnFragmentInteractionListener,
+        MovieListFragment.OnListFragmentInteractionListener,
+        RecentItemsFragment.OnFragmentInteractionListener{
     private Activity mCurrentActivity = null;
     Firebase masterRef;
-    private DrawerLayout mDrawer;
-    private NavigationView nvDrawer;
-    private DrawerLayout dlDrawer;
-    private Toolbar toolbar;
-    private ActionBarDrawerToggle drawerToggle;
     private View mainLayout;
 
     private void gotoLogin() {
@@ -51,6 +51,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(p);
     }
 
+    private DrawerLayout mDrawer;
+    private Toolbar toolbar;
+    private ActionBarDrawerToggle drawerToggle;
+    private Fragment currentFragment;
+    private View mProgressView;
+    private View mFragmentView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,54 +75,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         setContentView(R.layout.activity_main);
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                masterRef.unauth();
-            }
-        });
-
-        Button submit_button = (Button) findViewById(R.id.submit_button);
-        submit_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Submit successfully! Thank you ", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        Button editProfile = (Button) findViewById(R.id.edit_button);
-        editProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gotoProfile();
-            }
-        });
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
-
-        dlDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerToggle = setupDrawerToggle();
-
-        dlDrawer.setDrawerListener(drawerToggle);
-
-        // Find our drawer view
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        nvDrawer = (NavigationView) findViewById(R.id.nvView);
-        // Setup drawer view
+        drawerToggle = setupDrawerToggle();
+        mDrawer.setDrawerListener(drawerToggle);
+        NavigationView nvDrawer = (NavigationView) findViewById(R.id.nvView);
         setupDrawerContent(nvDrawer);
+        mProgressView = findViewById(R.id.load_progress);
+        mFragmentView = findViewById(R.id.flContent);
+        currentFragment = new HomeFragment();
+        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+        tx.replace(R.id.flContent, currentFragment);
+        tx.commit();
 
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
-//        mainLayout = findViewById(R.id.fab);
-//        mainLayout.setVisibility(View.INVISIBLE);
-        return new ActionBarDrawerToggle(this, dlDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
+        return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggles
+        drawerToggle.onConfigurationChanged(newConfig);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -129,80 +123,112 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public void selectDrawerItem(MenuItem menuItem) {
-        // Create a new fragment and specify the planet to show based on
-        // position
-        Fragment fragment = null;
-
-        Class fragmentClass;
-        switch(menuItem.getItemId()) {
-            case R.id.nav_first_fragment:
-                fragmentClass = ProfileActivity.class;
-                break;
-            case R.id.nav_second_fragment:
-                fragmentClass = RegisterActivity.class;
-                break;
-            case R.id.nav_third_fragment:
-                fragmentClass = ProfileActivity.class;
-                break;
-            default:
-                fragmentClass = ProfileActivity.class;
-        }
-
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // Insert the fragment by replacing any existing fragment
+    private void changeFragment(Fragment fragment, boolean save) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        if (save) {
+            currentFragment = fragment;
+        }
+    }
 
-        // Highlight the selected item, update the title, and close the drawer
+    public void selectDrawerItem(MenuItem menuItem) {
+        Fragment fragment;
+        switch(menuItem.getItemId()) {
+            case R.id.nav_first_fragment:
+                fragment = new MovieListFragment();
+                break;
+            case R.id.nav_second_fragment:
+                fragment = new RecentItemsFragment();
+                break;
+            case R.id.nav_third_fragment:
+                fragment = new HomeFragment();
+                break;
+            default:
+                fragment = new HomeFragment();
+        }
+
+        changeFragment(fragment, true);
         menuItem.setChecked(true);
         setTitle(menuItem.getTitle());
         mDrawer.closeDrawers();
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        // The action bar home/up action should open or close the drawer.
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawer.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.action_logout:
+                logout();
+                return true;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_logout) {
-            logout();
-        }
-        if (id == android.R.id.home) {
-            mDrawer.openDrawer(GravityCompat.START);
-            return true;
-        }
-
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private SearchView mSearchView;
+    private MenuItem searchMenuItem;
+
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        // Retrieve the SearchView and plug it into SearchManager
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+
+        SearchManager searchManager = (SearchManager) MainActivity.this.getSystemService(Context.SEARCH_SERVICE);
+
+        if (searchItem != null) {
+            mSearchView = (SearchView) searchItem.getActionView();
+        }
+        if (mSearchView != null) {
+            mSearchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
+        }
+        SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                changeFragment(SearchFragment.newInstance(query), false);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        };
+        MenuItemCompat.OnActionExpandListener expandListener = new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                // Do something when action item collapses
+                if (currentFragment != null) {
+                    changeFragment(currentFragment, true);
+                }
+                return true;  // Return true to collapse action view
+            }
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                // Do something when expanded]
+                return true;  // Return true to expand action view
+            }
+        };
+        mSearchView.setOnQueryTextListener(listener);
+        MenuItemCompat.setOnActionExpandListener(searchItem, expandListener);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
+    public void onListFragmentInteraction(Movie item) {
+
     }
+
+
 }

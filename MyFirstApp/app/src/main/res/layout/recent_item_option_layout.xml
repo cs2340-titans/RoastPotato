@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+        android:id="@+id/recent_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="74dp"
+            android:text="Title"
+            android:paddingStart="1dp"
+            android:paddingEnd="1dp"
+            android:layout_weight="0.80"
+            android:layout_margin="10dp" />
+
+        <TextView
+        android:id="@+id/recent_item_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:text="Rating"
+            android:layout_weight="0.43"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="10dp" />
+    </RelativeLayout>
+
+</LinearLayout>
