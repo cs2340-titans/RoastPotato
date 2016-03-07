@@ -23,7 +23,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context="com.example.wenqixian.myfirstapp.MovieListFragment"
+        tools:context=".fragments.MovieListFragment"
         tools:listitem="@layout/fragment_movie"
         android:visibility="gone"/>
 </LinearLayout>
