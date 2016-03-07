@@ -96,12 +96,13 @@ public class RecommendationActivity extends AppCompatActivity {
                 R.id.textitem,
                 getData());
         lv.setAdapter(adapter);
-
-        //Retrieve user information from firebase
-
     }
 
+    /*
+     * populate the list for the movie recommendation
+     */
     private void populateList() {
+        //Retrieve user information from firebase
         Firebase userRef = myFirebaseRef.child("profile").child(myFirebaseRef.getAuth().getUid());
         userRef.addValueEventListener(new ValueEventListener() {
                                           @Override
