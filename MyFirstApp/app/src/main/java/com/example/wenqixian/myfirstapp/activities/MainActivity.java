@@ -136,6 +136,11 @@ public class MainActivity extends FirebaseLoginBaseActivity
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
+                        // to be changed
+                        // if logged in, show profile's username and email address from firebase
+                        // if not logged in, show the following dummy case: John Doe
+
+
                         new ProfileDrawerItem().withName("John Doe")
                                 .withEmail("john.doe@gmail.com")
                                 .withIcon("https://avatars2.githubusercontent.com/u/3586644?v=3&s=460")
