@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.wenqixian.myfirstapp.R;
@@ -40,6 +42,9 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.facebook.login.widget.LoginButton;
 import com.firebase.client.FirebaseError;
+import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
+import com.mikepenz.materialdrawer.util.DrawerImageLoader;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -221,6 +226,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Store values at the time of the login attempt.
         String username = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        // maybe customize the drawer here  ???
+
 
         boolean cancel = false;
         View focusView = null;
@@ -256,6 +263,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 @Override
                 public void onAuthenticationError(FirebaseError firebaseError) {
                     postAuthFailed();
+                }
+            });
+            DrawerImageLoader.init(new AbstractDrawerImageLoader() {
+                @Override
+                public void set(ImageView imageView, Uri uri, Drawable placeholder) {
+                    Picasso.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
+                }
+
+                @Override
+                public void cancel(ImageView imageView) {
+                    Picasso.with(imageView.getContext()).cancelRequest(imageView);
                 }
             });
         }
