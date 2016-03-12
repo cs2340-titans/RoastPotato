@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.wenqixian.myfirstapp">
+    package="com.example.wenqixian.myfirstapp" >
 
     <uses-sdk android:minSdkVersion="11" />
 
@@ -21,12 +21,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,7 +42,7 @@
             android:name=".activities.RegisterActivity"
             android:label="@string/title_activity_register"
             android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.LoginActivity" />
@@ -60,7 +60,7 @@
         <activity
             android:name=".activities.ProfileActivity"
             android:label="@string/title_activity_profile"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
@@ -85,14 +85,18 @@
             android:name=".activities.RatingActivity"
             android:label="@string/title_activity_rating"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.ActionBar">
+            android:theme="@style/AppTheme.ActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MovieDetailActivity" />
         </activity>
         <activity
             android:name=".activities.RecommendationActivity"
-            android:label="@string/title_activity_recommendation"></activity>
+            android:label="@string/title_activity_recommendation" />
+        <activity
+            android:name=".activities.AdministrationActivity"
+            android:label="@string/title_activity_administration" >
+        </activity>
     </application>
 
 </manifest>
