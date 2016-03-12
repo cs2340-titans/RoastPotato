@@ -64,12 +64,12 @@ public class AdministrationActivity extends AppCompatActivity {
      */
     private void populateList() {
         //Retrieve user information from firebase
-        Firebase userRef = myFirebaseRef.child("profile").child(myFirebaseRef.getAuth().getUid());
+        Firebase userRef = myFirebaseRef.child("profile");
         userRef.addValueEventListener(new ValueEventListener() {
                                           @Override
                                           public void onDataChange(DataSnapshot snapshot) {
-                                              User user = snapshot.getValue(User.class);
-                                              if (user != null) {
+                                              for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                                                  User user = postSnapshot.getValue(User.class);
                                                   Status.put(user.getFullname(), status);
                                               }
                                           }
