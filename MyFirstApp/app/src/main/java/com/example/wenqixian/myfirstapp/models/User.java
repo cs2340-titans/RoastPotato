@@ -10,15 +10,17 @@ public class User {
     String gtid;
     String email;
     String major;
+    String status;
 
     public User() {
 
     }
-    public User(String fullname, String gtid, String email, String major) {
+    public User(String fullname, String gtid, String email, String major, String status) {
         this.fullname = fullname;
         this.gtid = gtid;
         this.email= email;
         this.major = major;
+        this.status = status;
     }
 
     @Override
@@ -27,7 +29,8 @@ public class User {
                 "fullname='" + fullname + '\'' +
                 ", gtid='" + gtid + '\'' +
                 ", email='" + email + '\'' +
-                ", mobile='" + major + '\'' +
+                ", major='" + major + '\'' +
+                ", status" + status + '\'' +
                 '}';
     }
 
@@ -61,5 +64,13 @@ public class User {
 
     public void setMajor(String major) {
         this.major = major;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -23,17 +21,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.wenqixian.myfirstapp.R;
 import com.example.wenqixian.myfirstapp.fragments.HomeFragment;
 import com.example.wenqixian.myfirstapp.fragments.MovieListFragment;
-import com.example.wenqixian.myfirstapp.R;
 import com.example.wenqixian.myfirstapp.fragments.RecentItemsFragment;
 import com.example.wenqixian.myfirstapp.fragments.SearchFragment;
 import com.example.wenqixian.myfirstapp.models.Movie;
+import com.example.wenqixian.myfirstapp.models.User;
 import com.example.wenqixian.myfirstapp.singletons.FirebaseSingleton;
 import com.facebook.FacebookSdk;
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.firebase.ui.auth.core.AuthProviderType;
 import com.firebase.ui.auth.core.FirebaseLoginBaseActivity;
 import com.firebase.ui.auth.core.FirebaseLoginError;
@@ -48,7 +52,6 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
@@ -108,6 +111,7 @@ public class MainActivity extends FirebaseLoginBaseActivity
     private View mFragmentView;
     private Drawer drawer;
     private AccountHeader headerResult = null;
+    private User currUser = new User("John Doe", "1234567890", "john.doe@gmail.com", "Computer Science", "Active");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,13 +140,8 @@ public class MainActivity extends FirebaseLoginBaseActivity
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
-                        // to be changed
-                        // if logged in, show profile's username and email address from firebase
-                        // if not logged in, show the following dummy case: John Doe
-
-
-                        new ProfileDrawerItem().withName("John Doe")
-                                .withEmail("john.doe@gmail.com")
+                        new ProfileDrawerItem().withName(currUser.getFullname())
+                                .withEmail(currUser.getEmail())
                                 .withIcon("https://avatars2.githubusercontent.com/u/3586644?v=3&s=460")
                                 .withIdentifier(100)
                 )
@@ -188,7 +187,10 @@ public class MainActivity extends FirebaseLoginBaseActivity
                                 .withIdentifier(100001),
                         new ProfileSettingDrawerItem().withName("Recommendation")
                                 .withIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_movie))
-                                .withIdentifier(100002)
+                                .withIdentifier(100002),
+                        new ProfileSettingDrawerItem().withName("Administration")
+                                .withIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_alarm))
+                                .withIdentifier(100003)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -200,6 +202,10 @@ public class MainActivity extends FirebaseLoginBaseActivity
                             }
                             if (drawerItem.getIdentifier() == 100002) {
                                 Intent intent = new Intent(MainActivity.this, RecommendationActivity.class);
+                                startActivity(intent);
+                            }
+                            if (drawerItem.getIdentifier() == 100003) {
+                                Intent intent = new Intent(MainActivity.this, AdministrationActivity.class);
                                 startActivity(intent);
                             }
                             if (drawerItem.getIdentifier() == PROFILE_SETTING) {
@@ -237,6 +243,33 @@ public class MainActivity extends FirebaseLoginBaseActivity
                 } else {
                     showFirebaseLoginPrompt();
                 }
+            }
+        });
+
+        // get a reference to roast-potato.firebaseio.com
+        Firebase myFirebaseRef = FirebaseSingleton.getInstance().ref();
+        // Direct to current user by refering to its unique id
+        final Firebase uniqueRef = myFirebaseRef.child("profile").child(myFirebaseRef.getAuth().getUid());
+        // Attach an listener to read the data at this reference
+        uniqueRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                if (user != null && user.getStatus().equals("Active")) {
+                    //Toast.makeText(getBaseContext(), "Your account is active", Toast.LENGTH_LONG).show();
+                } else if (user != null && user.getStatus().equals("Locked")) {
+                    Toast.makeText(getBaseContext(), "Your account is locked", Toast.LENGTH_LONG).show();
+                    logout();
+                } else {
+                    Toast.makeText(getBaseContext(), "Your account is banned", Toast.LENGTH_LONG).show();
+                }
+                // TODO:
+                // Extra: Make the administration button only visible to admins.
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
             }
         });
     }
