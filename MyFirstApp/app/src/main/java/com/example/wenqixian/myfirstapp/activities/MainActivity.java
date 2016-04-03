@@ -163,8 +163,9 @@ public class MainActivity extends FirebaseLoginBaseActivity
                 .addProfiles(
                         new ProfileDrawerItem().withName(currUser.getFullname())
                                 .withEmail(currUser.getEmail())
-                                .withIcon("https://avatars2.githubusercontent.com/u/3586644?v=3&s=460")
-                                .withIdentifier(100)
+                        // to be changed
+                        // if logged in, show profile's username and email address from firebase
+                        // if not logged in, show the following dummy case: John Doe
                 )
                 .withSelectionListEnabledForSingleProfile(false)
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
