@@ -34,7 +34,7 @@ import com.firebase.client.ValueEventListener;
 public class RatingActivity extends AppCompatActivity {
 
     private Movie mMovie;
-    String movieID = "1234";
+    private MovieRating mMovieRating;
 
     // get a reference to roast-potato.firebaseio.com
     final Firebase myFirebaseRef = FirebaseSingleton.getInstance().ref();
@@ -51,6 +51,8 @@ public class RatingActivity extends AppCompatActivity {
         String movieId = b.getString("movie-id");
         String movieName = b.getString("movie-name");
         mMovie = new Movie(movieId, movieName);
+        mMovieRating = new MovieRating(null, null, 0, 0, null);
+
         // -- ** View and Edit Rating ** --
         uniqueRef = uniqueRef.child(uniqueRef.getAuth().getUid() + '_' + movieId);
         // Attach an listener to read the data at this reference
@@ -102,9 +104,13 @@ public class RatingActivity extends AppCompatActivity {
             case R.id.action_send:
                 EditText commentText = ((EditText) findViewById(R.id.comments_editText));
                 final String comment = commentText.getText().toString();
+                mMovieRating.setComment(comment);
                 RatingBar ratingbar = ((RatingBar) findViewById(R.id.ratingBar));
                 final float score = ratingbar.getRating();
+                mMovieRating.setScore(score);
                 final float ranking = 6 - score;
+                mMovieRating.setRanking(ranking);
+
                 Firebase userRef = myFirebaseRef.child("profile").child(myFirebaseRef.getAuth().getUid());
                 userRef.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -112,7 +118,9 @@ public class RatingActivity extends AppCompatActivity {
                         User user = snapshot.getValue(User.class);
                         if (user != null) {
                             // overwrite the data at the specified id.
-                            uniqueRef.setValue(new MovieRating(user.getMajor(), mMovie.getName(), score, ranking, comment));
+                            mMovieRating.setUserMajor(user.getMajor());
+                            mMovieRating.setMovieName(mMovie.getName());
+                            uniqueRef.setValue(mMovieRating);
                         }
                     }
                     @Override

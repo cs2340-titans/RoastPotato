@@ -117,6 +117,7 @@ public class MainActivity extends FirebaseLoginBaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         LayoutInflaterCompat.setFactory(getLayoutInflater(), new IconicsLayoutInflater(getDelegate()));
         super.onCreate(savedInstanceState);
+
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder) {
@@ -260,6 +261,8 @@ public class MainActivity extends FirebaseLoginBaseActivity
         tx.replace(R.id.flContent, currentFragment);
         tx.commit();
 
+
+
     }
 
     @Override
@@ -303,7 +306,37 @@ public class MainActivity extends FirebaseLoginBaseActivity
             }
         });
 
+
         // get a reference to roast-potato.firebaseio.com
+        Firebase myFirebaseRef = FirebaseSingleton.getInstance().ref();
+        // Direct to current user by refering to its unique id
+
+        if (myFirebaseRef.getAuth() != null) {
+            final Firebase uniqueRef = myFirebaseRef.child("profile").child(myFirebaseRef.getAuth().getUid());
+            // Attach an listener to read the data at this reference
+            uniqueRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    User user = snapshot.getValue(User.class);
+                    if (user != null && user.getStatus().equals("Active")) {
+                    } else if (user != null && user.getStatus().equals("Locked")) {
+                        Toast.makeText(getBaseContext(), "Your account is locked", Toast.LENGTH_LONG).show();
+                        logout();
+                    } else {
+                        Toast.makeText(getBaseContext(), "Your account is banned", Toast.LENGTH_LONG).show();
+                    }
+                    // TODO:
+                    // Extra: Make the administration button only visible to admins.
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+                    System.out.println("The read failed: " + firebaseError.getMessage());
+                }
+            });
+        } else {
+            Toast.makeText(getBaseContext(), "auth is null", Toast.LENGTH_LONG).show();
+        }
 
     }
 
