@@ -26,6 +26,12 @@ public class User {
         this.major = major;
         this.status = status;
     }
+    public User(String fullname, String gtid, String email, String major) {
+        this.fullname = fullname;
+        this.gtid = gtid;
+        this.email= email;
+        this.major = major;
+    }
 
     @Override
     public String toString() {
