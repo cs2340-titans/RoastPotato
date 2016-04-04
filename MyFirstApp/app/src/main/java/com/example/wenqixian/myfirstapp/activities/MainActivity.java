@@ -262,7 +262,6 @@ public class MainActivity extends FirebaseLoginBaseActivity
                 public void onDataChange(DataSnapshot snapshot) {
                     User user = snapshot.getValue(User.class);
                     if (user != null && user.getStatus().equals("Active")) {
-                        Toast.makeText(getBaseContext(), "Your account is active", Toast.LENGTH_LONG).show();
                     } else if (user != null && user.getStatus().equals("Locked")) {
                         Toast.makeText(getBaseContext(), "Your account is locked", Toast.LENGTH_LONG).show();
                         logout();
