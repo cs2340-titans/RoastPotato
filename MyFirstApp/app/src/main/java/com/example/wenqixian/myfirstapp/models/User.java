@@ -4,6 +4,10 @@ package com.example.wenqixian.myfirstapp.models;
 /**
  * Created by wenqixian on 2/13/16.
  */
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
     String fullname;
@@ -22,9 +26,18 @@ public class User {
         this.major = major;
         this.status = status;
     }
+    public User(String fullname, String gtid, String email, String major) {
+        this.fullname = fullname;
+        this.gtid = gtid;
+        this.email= email;
+        this.major = major;
+    }
 
     @Override
     public String toString() {
+        if (fullname == null || gtid == null || email == null || major == null) {
+            return "The user is missing one of the fields";
+        }
         return "User{" +
                 "fullname='" + fullname + '\'' +
                 ", gtid='" + gtid + '\'' +
@@ -39,6 +52,9 @@ public class User {
     }
 
     public void setFullname(String fullname) {
+        if (fullname == null) {
+            throw new IllegalArgumentException("name cannot be null");
+        }
         this.fullname = fullname;
     }
 
@@ -47,6 +63,9 @@ public class User {
     }
 
     public void setGtid(String gtid) {
+        if (gtid == null) {
+            throw new IllegalArgumentException("gtid cannot be null");
+        }
         this.gtid = gtid;
     }
 
@@ -55,6 +74,9 @@ public class User {
     }
 
     public void setEmail(String email) {
+        if (email == null) {
+            throw new IllegalArgumentException("email cannot be null");
+        }
         this.email = email;
     }
 
@@ -63,6 +85,9 @@ public class User {
     }
 
     public void setMajor(String major) {
+        if (major == null) {
+            throw new IllegalArgumentException("major cannot be null");
+        }
         this.major = major;
     }
 

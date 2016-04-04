@@ -27,7 +27,7 @@ public class RecommendationActivity extends AppCompatActivity {
     final Firebase myFirebaseRef = FirebaseSingleton.getInstance().ref();
     // Direct to current movie by refering to its unique id
     private Firebase comments = myFirebaseRef.child("comments");
-    private User mUser = new User(null, null, null, null, null);
+    private User mUser = new User(null, null, null, "Computer Science", "Active");
     private ListView lv;
     private ArrayList<String> list = new ArrayList<String>();
     private ArrayAdapter<String> adapter;

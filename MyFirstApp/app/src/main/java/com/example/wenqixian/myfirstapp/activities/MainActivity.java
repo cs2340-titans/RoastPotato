@@ -133,6 +133,31 @@ public class MainActivity extends FirebaseLoginBaseActivity
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        // -- ** View profile ** --
+
+        // get a reference to roast-potato.firebaseio.com
+        Firebase myFirebaseRef = FirebaseSingleton.getInstance().ref();
+        // Direct to current user by refering to its unique id
+        /*
+        final Firebase uniqueRef = myFirebaseRef.child("profile").child(myFirebaseRef.getAuth().getUid());
+        // Attach an listener to read the data at this reference
+        uniqueRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                //for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                User user = snapshot.getValue(User.class);
+                if (user != null) {
+                    currUser = user;
+                }
+                //}
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+        });
+        */
         setSupportActionBar(toolbar);
         PrimaryDrawerItem newItems = new PrimaryDrawerItem()
                 .withName(R.string.drawer_new_items)
@@ -141,8 +166,16 @@ public class MainActivity extends FirebaseLoginBaseActivity
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
+                        /*
                         new ProfileDrawerItem().withName(currUser.getFullname())
                                 .withEmail(currUser.getEmail())
+
+                                .withIcon("https://avatars2.githubusercontent.com/u/3586644?v=3&s=460")
+                                .withIdentifier(100)
+                                */
+                        new ProfileDrawerItem().withName("Roast Potato")
+                                .withEmail("user@example.com")
+
                                 .withIcon("https://avatars2.githubusercontent.com/u/3586644?v=3&s=460")
                                 .withIdentifier(100)
                 )
@@ -242,7 +275,31 @@ public class MainActivity extends FirebaseLoginBaseActivity
             @Override
             public void onAuthStateChanged(AuthData authData) {
                 if (authData != null) {
-                    // user is logged in
+                    Firebase myFirebaseRef = FirebaseSingleton.getInstance().ref();
+                    // Direct to current user by refering to its unique id
+                    final Firebase uniqueRef = myFirebaseRef.child("profile").child(myFirebaseRef.getAuth().getUid());
+                    // Attach an listener to read the data at this reference
+                    uniqueRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            User user = snapshot.getValue(User.class);
+                            if (user != null && user.getStatus().equals("Active")) {
+                                //Toast.makeText(getBaseContext(), "Your account is active", Toast.LENGTH_LONG).show();
+                            } else if (user != null && user.getStatus().equals("Locked")) {
+                                Toast.makeText(getBaseContext(), "Your account is locked", Toast.LENGTH_LONG).show();
+                                logout();
+                            } else {
+                                Toast.makeText(getBaseContext(), "Your account is banned", Toast.LENGTH_LONG).show();
+                            }
+                            // TODO:
+                            // Extra: Make the administration button only visible to admins.
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+                            System.out.println("The read failed: " + firebaseError.getMessage());
+                        }
+                    });
                 } else {
                     showFirebaseLoginPrompt();
                 }
