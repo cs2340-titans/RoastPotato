@@ -111,7 +111,11 @@ public class MainActivity extends FirebaseLoginBaseActivity
     private View mFragmentView;
     private Drawer drawer;
     private AccountHeader headerResult = null;
+<<<<<<< HEAD
+    private User currUser = new User("John Doe", "1234567890", "john.doe@gmail.com", "Computer Science");
+=======
     private User currUser = new User("John Doe", "1234567890", "john.doe@gmail.com", "Computer Science", "Active");
+>>>>>>> master
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +136,29 @@ public class MainActivity extends FirebaseLoginBaseActivity
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        // -- ** View profile ** --
+
+        // get a reference to roast-potato.firebaseio.com
+        Firebase myFirebaseRef = FirebaseSingleton.getInstance().ref();
+        // Direct to current user by refering to its unique id
+        final Firebase uniqueRef = myFirebaseRef.child("profile").child(myFirebaseRef.getAuth().getUid());
+        // Attach an listener to read the data at this reference
+        uniqueRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                //for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                User user = snapshot.getValue(User.class);
+                if (user != null) {
+                    currUser = user;
+                }
+                //}
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+        });
         setSupportActionBar(toolbar);
         PrimaryDrawerItem newItems = new PrimaryDrawerItem()
                 .withName(R.string.drawer_new_items)
@@ -142,8 +169,14 @@ public class MainActivity extends FirebaseLoginBaseActivity
                 .addProfiles(
                         new ProfileDrawerItem().withName(currUser.getFullname())
                                 .withEmail(currUser.getEmail())
+<<<<<<< HEAD
+                        // to be changed
+                        // if logged in, show profile's username and email address from firebase
+                        // if not logged in, show the following dummy case: John Doe
+=======
                                 .withIcon("https://avatars2.githubusercontent.com/u/3586644?v=3&s=460")
                                 .withIdentifier(100)
+>>>>>>> master
                 )
                 .withSelectionListEnabledForSingleProfile(false)
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
