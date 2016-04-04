@@ -37,10 +37,7 @@ public class User {
                 ", gtid='" + gtid + '\'' +
                 ", email='" + email + '\'' +
                 ", major='" + major + '\'' +
-<<<<<<< HEAD
-=======
                 ", status" + status + '\'' +
->>>>>>> master
                 '}';
     }
 
