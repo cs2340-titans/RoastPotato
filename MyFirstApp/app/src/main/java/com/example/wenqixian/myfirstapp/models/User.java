@@ -4,6 +4,10 @@ package com.example.wenqixian.myfirstapp.models;
 /**
  * Created by wenqixian on 2/13/16.
  */
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
     String fullname;
