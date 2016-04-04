@@ -14,15 +14,17 @@ public class User {
     String gtid;
     String email;
     String major;
+    String status;
 
     public User() {
 
     }
-    public User(String fullname, String gtid, String email, String major) {
+    public User(String fullname, String gtid, String email, String major, String status) {
         this.fullname = fullname;
         this.gtid = gtid;
         this.email= email;
         this.major = major;
+        this.status = status;
     }
 
     @Override
@@ -35,6 +37,10 @@ public class User {
                 ", gtid='" + gtid + '\'' +
                 ", email='" + email + '\'' +
                 ", major='" + major + '\'' +
+<<<<<<< HEAD
+=======
+                ", status" + status + '\'' +
+>>>>>>> master
                 '}';
     }
 
@@ -80,5 +86,13 @@ public class User {
             throw new IllegalArgumentException("major cannot be null");
         }
         this.major = major;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

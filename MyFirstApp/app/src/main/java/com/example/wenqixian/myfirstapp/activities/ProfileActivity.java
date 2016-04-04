@@ -87,8 +87,9 @@ public class ProfileActivity extends AppCompatActivity {
                 String major = ((EditText) mCurrentActivity.findViewById(R.id.profile_major))
                         .getText()
                         .toString();
+                String status = "Active";
                 // overwrite the data at the specified user id.
-                uniqueRef.setValue(new User(name, gtid, email, major));
+                uniqueRef.setValue(new User(name, gtid, email, major, status));
                 Snackbar.make(v, "Save successfully!", Snackbar.LENGTH_SHORT).show();
             }
         });
