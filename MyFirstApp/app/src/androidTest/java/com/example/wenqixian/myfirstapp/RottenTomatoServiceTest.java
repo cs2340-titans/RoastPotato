@@ -40,13 +40,27 @@ public class RottenTomatoServiceTest {
         String url = rts.getSearchQuery("test_query");
         Assert.assertEquals("http://api.rottentomatoes.com/api/public/v1.0/movies.json?page_limit=25&page=1&q=test_query&apikey=yedukp76ffytfuy24zsqk7f5", url);
     }
+
     @Test(timeout = TIMEOUT)
-    public void m02TestRecentMovies() {
+    public void m02TestSearchQueryWithSpace() {
+        String url = rts.getSearchQuery("test_query test_query2");
+        Assert.assertEquals("http://api.rottentomatoes.com/api/public/v1.0/movies.json?page_limit=25&page=1&q=test_query%20test_query2&apikey=yedukp76ffytfuy24zsqk7f5", url);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void m03TestSearchQueryWithSpace() {
+        String url = rts.getSearchQuery("test_query  test_query2");
+        Assert.assertEquals("http://api.rottentomatoes.com/api/public/v1.0/movies.json?page_limit=25&page=1&q=test_query%20%20test_query2&apikey=yedukp76ffytfuy24zsqk7f5", url);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void m04TestRecentMovies() {
         String url = rts.getRecentMovies();
         Assert.assertEquals("http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json?apikey=yedukp76ffytfuy24zsqk7f5", url);
     }
+
     @Test(timeout = TIMEOUT)
-    public void m03TestRecentDVDs() {
+    public void m05TestRecentDVDs() {
         String url = rts.getRecentDVDs();
         Assert.assertEquals("http://api.rottentomatoes.com/api/public/v1.0/lists/dvds/new_releases.json?apikey=yedukp76ffytfuy24zsqk7f5", url);
     }
