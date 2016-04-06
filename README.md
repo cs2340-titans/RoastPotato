@@ -1,2 +1,4 @@
-# M2
-TITANS' Repository for Milestone 2
+# Roast Potato
+TITANS' Repository for Movie Selector
+
+We fuking love ROAST POTATOES.
