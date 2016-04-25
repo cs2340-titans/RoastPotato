@@ -1,6 +1,8 @@
 package com.example.wenqixian.myfirstapp.activities;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wenqixian.myfirstapp.MyFirstApp;
 import com.example.wenqixian.myfirstapp.R;
 import com.example.wenqixian.myfirstapp.fragments.HomeFragment;
 import com.example.wenqixian.myfirstapp.fragments.MovieListFragment;
@@ -57,6 +60,8 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
+
+import java.util.Calendar;
 
 public class MainActivity extends FirebaseLoginBaseActivity
         implements HomeFragment.OnFragmentInteractionListener,
@@ -117,6 +122,14 @@ public class MainActivity extends FirebaseLoginBaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         LayoutInflaterCompat.setFactory(getLayoutInflater(), new IconicsLayoutInflater(getDelegate()));
         super.onCreate(savedInstanceState);
+
+        AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        // set for 30 seconds later
+        Calendar calendar = Calendar.getInstance();
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                1000 * 10, alarmIntent);
 
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
